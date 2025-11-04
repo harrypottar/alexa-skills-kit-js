@@ -1,7 +1,7 @@
 from diagrams import Diagram, Cluster, Edge
 from diagrams.k8s.network import Ingress, Service
 from diagrams.k8s.compute import Deployment
-from diagrams.onprem.database import PostgreSQL, MongoDB
+from diagrams.onprem.database import MySQL, MongoDB
 from diagrams.onprem.inmemory import Redis
 from diagrams.onprem.queue import RabbitMQ
 from diagrams.onprem.monitoring import Grafana
@@ -76,7 +76,7 @@ with Diagram(
             keycloak = Auth0("KeyCloak\n(SSO)")
 
         with Cluster("Data Storage", graph_attr={"bgcolor": "#F0F4C3"}):
-            mysql = PostgreSQL("MySQL\n(Relational)")
+            mysql = MySQL("MySQL\n(Relational)")
             mongodb = MongoDB("MongoDB\n(Documents)")
             redis = Redis("Redis\n(Cache)")
 
@@ -95,11 +95,14 @@ with Diagram(
     # Gateway to Auth (Direct - Synchronous)
     graphql_gateway >> Edge(color="#2E7D32", style="bold", label="auth") >> auth_service
 
-    # Gateway to Web Service
-    graphql_gateway >> Edge(color="#2E7D32", style="dashed") >> web_service
+    # Web Service calls Gateway on behalf of Web UI
+    web_service >> Edge(color="#2E7D32", style="bold", label="API calls") >> graphql_gateway
 
     # Auth Service to KeyCloak
     auth_service >> Edge(color="#F57C00", style="dashed", label="SSO") >> keycloak
+
+    # Auth Service sends notifications via RabbitMQ
+    auth_service >> Edge(color="#7B1FA2", label="notices") >> rabbitmq
 
     # Gateway to Conductor/RabbitMQ (Async Entry)
     graphql_gateway >> Edge(color="#F57C00", style="bold", label="requests") >> conductor
@@ -132,6 +135,9 @@ with Diagram(
     # Services to Redis (Cache)
     auth_service >> Edge(color="#C62828", style="dotted", label="cache") >> redis
     delivery >> Edge(color="#C62828", style="dotted", label="cache") >> redis
+
+    # KeyCloak uses MySQL as backend
+    keycloak >> Edge(color="#6D4C41", style="dotted", label="backend") >> mysql
 
     # Logging
     conductor >> Edge(color="#9E9E9E", style="dotted") >> elastic

@@ -27,8 +27,9 @@
 
 2. **Auth-Service**
    - Authentication and user management
-   - Direct connection from GraphQL Gateway
-   - Likely uses KeyCloak for identity management
+   - Direct connection from GraphQL Gateway (synchronous)
+   - Integrates with KeyCloak for SSO and identity management
+   - Sends notification messages via RabbitMQ
 
 3. **Conductor Orchestration Service**
    - Processes application flow
@@ -86,9 +87,9 @@
 ### Frontend Services
 
 13. **Web Microservice**
-    - Supports web UI
-    - Frontend service
-    - Connection method: TBD
+    - Supports web UI (backend for frontend)
+    - Makes API calls to GraphQL Gateway on behalf of Web UI
+    - Serves as intermediary between browser and API
 
 ---
 
@@ -96,9 +97,10 @@
 
 ### Identity & Access
 - **KeyCloak** - Identity and access management, SSO
+  - Uses MySQL as backend database
 
 ### Databases
-- **MySQL** - Relational database (primary data store)
+- **MySQL** - Relational database (primary data store, KeyCloak backend)
 - **MongoDB** - Document database (flexible schema storage)
 - **Redis** - In-memory cache and session store
 
@@ -115,8 +117,10 @@
 
 ### Synchronous Communication
 - **External → GraphQL Gateway → Auth-Service** (direct HTTP/GraphQL)
+- **Web Service → GraphQL Gateway** (API calls on behalf of Web UI)
 
 ### Asynchronous Communication (via RabbitMQ)
+- **Auth-Service → RabbitMQ** (sends notification messages)
 - **All other services** communicate through RabbitMQ queues
 - **Conductor Service** orchestrates workflow between RabbitMQ and microservices
 - Event-driven architecture for decoupling
@@ -149,8 +153,9 @@ RabbitMQ ←→ Conductor Service
 
 ## Questions / TBD
 
-- [ ] How does Web Microservice communicate with backend? (GraphQL Gateway or direct?)
-- [ ] Authentication flow: Does KeyCloak integrate with Auth-Service?
+- [x] How does Web Microservice communicate with backend? **ANSWERED: Via GraphQL Gateway**
+- [x] Authentication flow: Does KeyCloak integrate with Auth-Service? **ANSWERED: Yes, Auth-Service uses KeyCloak for SSO**
+- [x] What database does KeyCloak use? **ANSWERED: MySQL**
 - [ ] File storage: Where are media assets stored? (S3, NFS, etc.?)
 - [ ] Scale requirements: Expected load, number of users?
 - [ ] Deployment strategy: Rolling updates, blue-green, canary?
@@ -171,4 +176,4 @@ RabbitMQ ←→ Conductor Service
 ---
 
 **Last Updated:** 2025-11-04
-**Version:** 0.1
+**Version:** 0.2 - Updated with architecture clarifications (MySQL icon, KeyCloak backend, Auth-Service notifications, Web Service flow)
