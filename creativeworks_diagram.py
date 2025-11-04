@@ -1,7 +1,7 @@
 from diagrams import Diagram, Cluster, Edge
 from diagrams.k8s.network import Ingress, Service
 from diagrams.k8s.compute import Deployment
-from diagrams.onprem.database import MySQL, MongoDB
+from diagrams.onprem.database import MariaDB, MongoDB
 from diagrams.onprem.inmemory import Redis
 from diagrams.onprem.queue import RabbitMQ
 from diagrams.onprem.monitoring import Grafana
@@ -76,7 +76,7 @@ with Diagram(
             keycloak = Auth0("KeyCloak\n(SSO)")
 
         with Cluster("Data Storage", graph_attr={"bgcolor": "#F0F4C3"}):
-            mysql = MySQL("MySQL\n(Relational)")
+            mysql = MariaDB("MySQL/MariaDB\n(Relational)")
             mongodb = MongoDB("MongoDB\n(Documents)")
             redis = Redis("Redis\n(Cache)")
 
