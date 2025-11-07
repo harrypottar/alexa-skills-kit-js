@@ -1,4 +1,5 @@
 from diagrams import Diagram, Cluster, Edge
+from diagrams.custom import Custom
 from diagrams.k8s.network import Ingress, Service
 from diagrams.k8s.compute import Deployment
 from diagrams.onprem.database import MariaDB, MongoDB
@@ -10,7 +11,6 @@ from diagrams.saas.identity import Auth0
 from diagrams.programming.framework import GraphQL, React
 from diagrams.onprem.client import Users
 from diagrams.aws.storage import S3
-from diagrams.onprem.storage import Glusterfs
 
 # Configure diagram attributes for executive presentation
 graph_attr = {
@@ -93,8 +93,8 @@ with Diagram(
     # External Storage Backends
     with Cluster("External Storage", graph_attr={"bgcolor": "#FFF3E0"}):
         s3 = S3("AWS S3\n(Object Storage)")
-        egnyte = Glusterfs("Egnyte\n(Cloud Sharing)")
-        lucidlink = Glusterfs("LucidLink\n(Cloud FS)")
+        egnyte = Custom("Egnyte\n(Cloud Sharing)", "./logos/egnyte.png")
+        lucidlink = Custom("LucidLink\n(Cloud FS)", "./logos/lucidlink.png")
 
     # ==========================================
     # CONNECTIONS
@@ -164,4 +164,5 @@ with Diagram(
     elastic >> Edge(color="#9E9E9E") >> kibana
 
 print("✓ Creativeworks Architecture Diagram generated: creativeworks_architecture.png")
-print("  - Added File System Service with S3, Egnyte, and LucidLink storage backends")
+print("  - File System Service with S3, Egnyte, and LucidLink storage backends")
+print("  - Using official Egnyte and LucidLink company logos")

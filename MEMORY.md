@@ -22,10 +22,15 @@ Working on GitLab setup guide for the alexa-skills-kit-js repository.
      - **AWS S3** - Object storage for media assets
      - **Egnyte** - Cloud file sharing and collaboration
      - **LucidLink** - Cloud-native file system for high-performance access
+   - **Updated to use real company logos** for Egnyte and LucidLink (for presentation)
+   - Downloaded official company logos from Clearbit
+   - Created `logos/` directory with Egnyte and LucidLink PNG logos
    - Updated files:
      - `creativeworks-architecture.md` - Added Storage Services section, updated Data Storage Strategy
-     - `creativeworks_diagram.py` - Added File System service cluster and external storage connections
-     - `creativeworks_architecture.png` - Regenerated diagram with new components
+     - `creativeworks_diagram.py` - Added File System service cluster, external storage connections, and custom logo support
+     - `creativeworks_architecture.png` - Regenerated diagram with new components and real company logos
+     - `logos/egnyte.png` - Official Egnyte logo (128x128)
+     - `logos/lucidlink.png` - Official LucidLink logo (128x128)
    - Architecture version updated to 0.3
 
 2. **Architecture Diagrams** (Commits: ba1248e, 27d65dc, 0d3d13b, fc610f0, f53943f)
