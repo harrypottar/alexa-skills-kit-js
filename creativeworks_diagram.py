@@ -9,6 +9,8 @@ from diagrams.elastic.elasticsearch import Elasticsearch, Kibana
 from diagrams.saas.identity import Auth0
 from diagrams.programming.framework import GraphQL, React
 from diagrams.onprem.client import Users
+from diagrams.aws.storage import S3
+from diagrams.onprem.storage import Glusterfs
 
 # Configure diagram attributes for executive presentation
 graph_attr = {
@@ -70,6 +72,10 @@ with Diagram(
             openoffice = Deployment("OpenOffice\n(Docs)")
             pdf_service = Deployment("PDF Service\n(PDF/Text)")
 
+        # Storage Services
+        with Cluster("Storage Services", graph_attr={"bgcolor": "#FFCCBC"}):
+            filesystem = Deployment("File System\n(Storage Mgmt)")
+
     # Infrastructure Services
     with Cluster("Infrastructure Services", graph_attr={"bgcolor": "#FFE0B2"}):
         with Cluster("Identity", graph_attr={"bgcolor": "#FFCCBC"}):
@@ -83,6 +89,12 @@ with Diagram(
         with Cluster("Logging & Monitoring", graph_attr={"bgcolor": "#E1BEE7"}):
             elastic = Elasticsearch("ElasticSearch\n(Logs)")
             kibana = Kibana("Kibana\n(Analytics)")
+
+    # External Storage Backends
+    with Cluster("External Storage", graph_attr={"bgcolor": "#FFF3E0"}):
+        s3 = S3("AWS S3\n(Object Storage)")
+        egnyte = Glusterfs("Egnyte\n(Cloud Sharing)")
+        lucidlink = Glusterfs("LucidLink\n(Cloud FS)")
 
     # ==========================================
     # CONNECTIONS
@@ -123,6 +135,14 @@ with Diagram(
     rabbitmq >> Edge(color="#0097A7", label="queue") >> openoffice
     rabbitmq >> Edge(color="#0097A7", label="queue") >> pdf_service
 
+    # RabbitMQ to Storage Services
+    rabbitmq >> Edge(color="#E65100", label="queue") >> filesystem
+
+    # File System to External Storage
+    filesystem >> Edge(color="#F57F17", style="bold", label="mount") >> s3
+    filesystem >> Edge(color="#F57F17", style="bold", label="mount") >> egnyte
+    filesystem >> Edge(color="#F57F17", style="bold", label="mount") >> lucidlink
+
     # Services to Databases
     auth_service >> Edge(color="#6D4C41", style="dotted") >> mysql
     delivery >> Edge(color="#6D4C41", style="dotted") >> mysql
@@ -144,3 +164,4 @@ with Diagram(
     elastic >> Edge(color="#9E9E9E") >> kibana
 
 print("✓ Creativeworks Architecture Diagram generated: creativeworks_architecture.png")
+print("  - Added File System Service with S3, Egnyte, and LucidLink storage backends")

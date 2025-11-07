@@ -84,9 +84,21 @@
     - Text extraction from PDFs
     - Connects via RabbitMQ
 
+### Storage Services
+
+13. **File System Service**
+    - Unified file storage interface
+    - Mounts and manages multiple storage backends:
+      - **S3** - AWS S3 object storage
+      - **Egnyte** - Cloud file sharing and collaboration
+      - **LucidLink** - Cloud-native file system
+    - Provides file operations (read, write, delete, move)
+    - Handles file synchronization across storage backends
+    - Connects via RabbitMQ
+
 ### Frontend Services
 
-13. **Web Microservice**
+14. **Web Microservice**
     - Supports web UI (backend for frontend)
     - Makes API calls to GraphQL Gateway on behalf of Web UI
     - Serves as intermediary between browser and API
@@ -148,6 +160,10 @@ RabbitMQ ←→ Conductor Service
 - **MySQL**: Structured relational data (users, transactions, etc.)
 - **MongoDB**: Flexible document storage (metadata, assets info, etc.)
 - **Redis**: Caching, sessions, temporary data
+- **File System Service**: Media assets and files stored across multiple backends
+  - **S3**: Primary object storage for media assets
+  - **Egnyte**: Collaborative file sharing and team storage
+  - **LucidLink**: Cloud-native file system for high-performance access
 
 ---
 
@@ -156,7 +172,7 @@ RabbitMQ ←→ Conductor Service
 - [x] How does Web Microservice communicate with backend? **ANSWERED: Via GraphQL Gateway**
 - [x] Authentication flow: Does KeyCloak integrate with Auth-Service? **ANSWERED: Yes, Auth-Service uses KeyCloak for SSO**
 - [x] What database does KeyCloak use? **ANSWERED: MySQL**
-- [ ] File storage: Where are media assets stored? (S3, NFS, etc.?)
+- [x] File storage: Where are media assets stored? **ANSWERED: File System Service manages S3, Egnyte, and LucidLink**
 - [ ] Scale requirements: Expected load, number of users?
 - [ ] Deployment strategy: Rolling updates, blue-green, canary?
 - [ ] Monitoring: Prometheus/Grafana in addition to ELK stack?
@@ -175,5 +191,5 @@ RabbitMQ ←→ Conductor Service
 
 ---
 
-**Last Updated:** 2025-11-04
-**Version:** 0.2 - Updated with architecture clarifications (MySQL icon, KeyCloak backend, Auth-Service notifications, Web Service flow)
+**Last Updated:** 2025-11-07
+**Version:** 0.3 - Added File System Service for managing S3, Egnyte, and LucidLink storage backends
