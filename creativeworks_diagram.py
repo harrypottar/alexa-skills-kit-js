@@ -126,7 +126,7 @@ with Diagram(
     web_service >> Edge(color="#2E7D32", style="bold", label="API calls") >> graphql_gateway
 
     # Auth Service to KeyCloak
-    auth_service >> Edge(color="#F57C00", style="dashed", label="SSO") >> keycloak
+    auth_service >> Edge(color="#F57C00", style="dashed") >> keycloak
 
     # Auth Service sends notifications via RabbitMQ
     auth_service >> Edge(color="#7B1FA2", label="notices") >> rabbitmq
@@ -169,8 +169,8 @@ with Diagram(
     delivery >> Edge(color="#455A64", style="dotted") >> mongodb
 
     # Services to Redis (Cache)
-    auth_service >> Edge(color="#C62828", style="dotted", label="cache") >> redis
-    delivery >> Edge(color="#C62828", style="dotted", label="cache") >> redis
+    auth_service >> Edge(color="#C62828", style="dotted") >> redis
+    delivery >> Edge(color="#C62828", style="dotted") >> redis
 
     # KeyCloak uses MySQL as backend
     keycloak >> Edge(color="#6D4C41", style="dotted", label="backend") >> mysql
