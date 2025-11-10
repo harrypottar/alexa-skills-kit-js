@@ -16,7 +16,19 @@ Working on GitLab setup guide for the alexa-skills-kit-js repository.
 
 ### Completed Work (Latest First)
 
-1. **Architecture Flow Corrections** (2025-11-10)
+1. **MongoDB Service Addition** (2025-11-10)
+   - Added MongoDB Service to Storage Services section
+   - Purpose: Handles CRUD operations on asset JSON data
+   - Communication flow: **GraphQL Gateway → MongoDB Service → MongoDB**
+   - Direct synchronous connection (not via RabbitMQ)
+   - Acts as intermediary between GraphQL and MongoDB for asset metadata management
+   - Updated files:
+     - `creativeworks-architecture.md` - Added MongoDB Service (#14), updated Communication Patterns and Data Storage Strategy
+     - `creativeworks_diagram.py` - Added MongoDB Service deployment and connections
+     - `creativeworks_architecture.png` - Regenerated with MongoDB Service
+   - Architecture version updated to 0.5
+
+2. **Architecture Flow Corrections** (2025-11-10)
    - Updated External Clients flow:
      - **Web UI** now correctly points to **Web Service** (not GraphQL Gateway)
      - Implements proper Backend-for-Frontend (BFF) pattern
@@ -140,7 +152,8 @@ The repository contains sample Alexa skills in the `samples/` directory and rece
 - Corrected External Clients flow (Web UI → Web Service BFF pattern)
 - Renamed "Users & Partners" to "Integration & Partners"
 - Added External Auth block (OAuth2.0, SAML, Okta → KeyCloak)
-- Architecture version progressed from 0.2 → 0.4
+- Added MongoDB Service for CRUD operations on asset JSON data
+- Architecture version progressed from 0.2 → 0.5
 
 ### Session 1 (2025-11-04)
 - Initial memory file creation

@@ -81,6 +81,7 @@ with Diagram(
         # Storage Services
         with Cluster("Storage Services", graph_attr={"bgcolor": "#FFCCBC"}):
             filesystem = Deployment("File System\n(Storage Mgmt)")
+            mongodb_service = Deployment("MongoDB Service\n(Asset CRUD)")
 
     # Infrastructure Services
     with Cluster("Infrastructure Services", graph_attr={"bgcolor": "#FFE0B2"}):
@@ -117,6 +118,9 @@ with Diagram(
 
     # Gateway to Auth (Direct - Synchronous)
     graphql_gateway >> Edge(color="#2E7D32", style="bold", label="auth") >> auth_service
+
+    # Gateway to MongoDB Service (Direct - Synchronous CRUD)
+    graphql_gateway >> Edge(color="#2E7D32", style="bold", label="CRUD") >> mongodb_service
 
     # Web Service calls Gateway on behalf of Web UI
     web_service >> Edge(color="#2E7D32", style="bold", label="API calls") >> graphql_gateway
@@ -160,6 +164,7 @@ with Diagram(
     payment >> Edge(color="#6D4C41", style="dotted") >> mysql
 
     # Services to MongoDB
+    mongodb_service >> Edge(color="#455A64", style="bold", label="CRUD") >> mongodb
     renditions >> Edge(color="#455A64", style="dotted") >> mongodb
     delivery >> Edge(color="#455A64", style="dotted") >> mongodb
 
@@ -180,3 +185,4 @@ print("  - Using official Egnyte and LucidLink company logos")
 print("  - Updated: Web UI → Web Service (BFF pattern)")
 print("  - Updated: Users renamed to Integration & Partners")
 print("  - Added: External Auth block (OAuth2.0, SAML, Okta → KeyCloak)")
+print("  - Added: MongoDB Service for asset CRUD (GraphQL → MongoDB Service → MongoDB)")

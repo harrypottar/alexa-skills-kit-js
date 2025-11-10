@@ -107,9 +107,16 @@
     - Handles file synchronization across storage backends
     - Connects via RabbitMQ
 
+14. **MongoDB Service**
+    - Asset metadata management
+    - Handles CRUD operations on asset JSON data
+    - Acts as intermediary between GraphQL Gateway and MongoDB
+    - Direct synchronous connection from GraphQL Gateway
+    - Manages document queries, updates, and aggregations
+
 ### Frontend Services
 
-14. **Web Microservice**
+15. **Web Microservice**
     - Supports web UI (backend for frontend)
     - Makes API calls to GraphQL Gateway on behalf of Web UI
     - Serves as intermediary between browser and API
@@ -142,6 +149,7 @@
 - **Integration & Partners → GraphQL Gateway → Auth-Service** (direct HTTP/GraphQL)
 - **Web UI → Web Service → GraphQL Gateway** (BFF pattern - Web Service makes API calls on behalf of Web UI)
 - **External Auth (OAuth2.0/SAML/Okta) → KeyCloak** (direct authentication)
+- **GraphQL Gateway → MongoDB Service → MongoDB** (direct CRUD operations for asset metadata)
 
 ### Asynchronous Communication (via RabbitMQ)
 - **Auth-Service → RabbitMQ** (sends notification messages)
@@ -171,6 +179,7 @@ External Auth (OAuth2.0, SAML, Okta) → KeyCloak → Auth-Service
 
 - **MySQL**: Structured relational data (users, transactions, etc.)
 - **MongoDB**: Flexible document storage (metadata, assets info, etc.)
+  - Accessed via **MongoDB Service** for CRUD operations on asset JSON data
 - **Redis**: Caching, sessions, temporary data
 - **File System Service**: Media assets and files stored across multiple backends
   - **S3**: Primary object storage for media assets
@@ -204,4 +213,4 @@ External Auth (OAuth2.0, SAML, Okta) → KeyCloak → Auth-Service
 ---
 
 **Last Updated:** 2025-11-10
-**Version:** 0.4 - Updated External Clients flow (Web UI → Web Service), renamed to Integration & Partners, added External Auth block (OAuth2.0, SAML, Okta → KeyCloak)
+**Version:** 0.5 - Added MongoDB Service for CRUD operations on asset JSON data (GraphQL Gateway → MongoDB Service → MongoDB)
