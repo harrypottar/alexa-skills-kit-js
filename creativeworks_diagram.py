@@ -35,8 +35,14 @@ with Diagram(
 
     # External Users
     with Cluster("External Clients", graph_attr={"bgcolor": "#E3F2FD"}):
-        users = Users("Users & Partners")
+        partners = Users("Integration & Partners")
         web_ui = React("Web UI")
+
+    # External Authentication
+    with Cluster("External Auth", graph_attr={"bgcolor": "#FFF3E0"}):
+        oauth = Auth0("OAuth2.0")
+        saml = Auth0("SAML")
+        okta = Auth0("Okta")
 
     # Kubernetes Cluster
     with Cluster("Kubernetes Cluster", graph_attr={"bgcolor": "#E8F5E9"}):
@@ -100,9 +106,14 @@ with Diagram(
     # CONNECTIONS
     # ==========================================
 
-    # External to Gateway
-    users >> Edge(color="#1976D2", style="bold", label="GraphQL") >> graphql_gateway
-    web_ui >> Edge(color="#1976D2", style="bold") >> graphql_gateway
+    # External Clients to Gateway
+    partners >> Edge(color="#1976D2", style="bold", label="API") >> graphql_gateway
+    web_ui >> Edge(color="#1976D2", style="bold", label="BFF") >> web_service
+
+    # External Auth to KeyCloak
+    oauth >> Edge(color="#FF6F00", style="bold", label="auth") >> keycloak
+    saml >> Edge(color="#FF6F00", style="bold", label="auth") >> keycloak
+    okta >> Edge(color="#FF6F00", style="bold", label="auth") >> keycloak
 
     # Gateway to Auth (Direct - Synchronous)
     graphql_gateway >> Edge(color="#2E7D32", style="bold", label="auth") >> auth_service
@@ -166,3 +177,6 @@ with Diagram(
 print("✓ Creativeworks Architecture Diagram generated: creativeworks_architecture.png")
 print("  - File System Service with S3, Egnyte, and LucidLink storage backends")
 print("  - Using official Egnyte and LucidLink company logos")
+print("  - Updated: Web UI → Web Service (BFF pattern)")
+print("  - Updated: Users renamed to Integration & Partners")
+print("  - Added: External Auth block (OAuth2.0, SAML, Okta → KeyCloak)")

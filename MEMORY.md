@@ -16,7 +16,23 @@ Working on GitLab setup guide for the alexa-skills-kit-js repository.
 
 ### Completed Work (Latest First)
 
-1. **File System Microservice Addition** (2025-11-07)
+1. **Architecture Flow Corrections** (2025-11-10)
+   - Updated External Clients flow:
+     - **Web UI** now correctly points to **Web Service** (not GraphQL Gateway)
+     - Implements proper Backend-for-Frontend (BFF) pattern
+     - Renamed "Users & Partners" to **"Integration & Partners"**
+   - Added new **External Auth block**:
+     - OAuth2.0 authentication
+     - SAML enterprise SSO
+     - Okta identity management
+     - All external auth providers connect directly to KeyCloak
+   - Updated files:
+     - `creativeworks-architecture.md` - Updated External Access Layer, Communication Patterns, and Architecture Flow sections
+     - `creativeworks_diagram.py` - Added External Auth cluster, corrected Web UI connection
+     - `creativeworks_architecture.png` - Regenerated with corrected flows
+   - Architecture version updated to 0.4
+
+2. **File System Microservice Addition** (2025-11-07)
    - Added File System Service to Creativeworks architecture
    - Integrated support for three storage backends:
      - **AWS S3** - Object storage for media assets
@@ -117,6 +133,14 @@ The repository contains sample Alexa skills in the `samples/` directory and rece
 ---
 
 ## Session Log
+
+### Session 2 (2025-11-10)
+- Added File System microservice with S3, Egnyte, and LucidLink support
+- Replaced generic storage icons with official company logos for presentation
+- Corrected External Clients flow (Web UI → Web Service BFF pattern)
+- Renamed "Users & Partners" to "Integration & Partners"
+- Added External Auth block (OAuth2.0, SAML, Okta → KeyCloak)
+- Architecture version progressed from 0.2 → 0.4
 
 ### Session 1 (2025-11-04)
 - Initial memory file creation

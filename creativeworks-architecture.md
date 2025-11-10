@@ -11,8 +11,19 @@
 
 ### API Gateway
 - **GraphQL Gateway** - Single entry point for all external API calls
-- All external requests MUST go through the GraphQL Gateway
+- All external API requests (from Integration & Partners) go through the GraphQL Gateway
 - Gateway communicates directly with Auth-Service (synchronous)
+
+### Web UI Access
+- **Web UI** - Browser-based user interface
+- Connects to Web Service (UI Backend), NOT directly to GraphQL Gateway
+- Web Service acts as Backend-for-Frontend (BFF) pattern
+
+### External Authentication
+- **OAuth2.0** - Industry standard for authorization
+- **SAML** - Enterprise SSO authentication
+- **Okta** - Identity and access management platform
+- All external auth providers integrate directly with KeyCloak
 
 ---
 
@@ -128,8 +139,9 @@
 ## Communication Patterns
 
 ### Synchronous Communication
-- **External → GraphQL Gateway → Auth-Service** (direct HTTP/GraphQL)
-- **Web Service → GraphQL Gateway** (API calls on behalf of Web UI)
+- **Integration & Partners → GraphQL Gateway → Auth-Service** (direct HTTP/GraphQL)
+- **Web UI → Web Service → GraphQL Gateway** (BFF pattern - Web Service makes API calls on behalf of Web UI)
+- **External Auth (OAuth2.0/SAML/Okta) → KeyCloak** (direct authentication)
 
 ### Asynchronous Communication (via RabbitMQ)
 - **Auth-Service → RabbitMQ** (sends notification messages)
@@ -142,15 +154,15 @@
 ## Architecture Flow
 
 ```
-External Clients
-       ↓
-GraphQL Gateway (GraphQL-Service)
-       ↓
-   Auth-Service (direct)
-       ↓
-RabbitMQ ←→ Conductor Service
-       ↓
-   [All other microservices consume from queues]
+Integration & Partners → GraphQL Gateway → Auth-Service
+                              ↓
+                         Conductor ←→ RabbitMQ
+                              ↓
+                    [All microservices consume from queues]
+
+Web UI → Web Service → GraphQL Gateway → Auth-Service
+
+External Auth (OAuth2.0, SAML, Okta) → KeyCloak → Auth-Service
 ```
 
 ---
@@ -191,5 +203,5 @@ RabbitMQ ←→ Conductor Service
 
 ---
 
-**Last Updated:** 2025-11-07
-**Version:** 0.3 - Added File System Service for managing S3, Egnyte, and LucidLink storage backends
+**Last Updated:** 2025-11-10
+**Version:** 0.4 - Updated External Clients flow (Web UI → Web Service), renamed to Integration & Partners, added External Auth block (OAuth2.0, SAML, Okta → KeyCloak)
