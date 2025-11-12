@@ -16,7 +16,20 @@ Working on GitLab setup guide for the alexa-skills-kit-js repository.
 
 ### Completed Work (Latest First)
 
-1. **MongoDB Service Addition** (2025-11-10)
+1. **External Cloud Service Connect Addition** (2025-11-12)
+   - Added External Cloud Service Connect block
+   - Purpose: External service-to-service integration with the platform
+   - Communication flow: **Connect → GraphQL Gateway**
+   - Direct synchronous connection for API access
+   - Positioned next to External Clients block
+   - Updated files:
+     - `creativeworks-architecture.md` - Added External Cloud Service section, updated Communication Patterns and Architecture Flow
+     - `creativeworks_diagram.py` - Added External Cloud Service cluster with Connect logo
+     - `creativeworks_architecture.png` - Regenerated with Connect service
+     - `logos/connect-logo.png` - Official Connect logo (229x45)
+   - Architecture version updated to 0.6
+
+2. **MongoDB Service Addition** (2025-11-10)
    - Added MongoDB Service to Storage Services section
    - Purpose: Handles CRUD operations on asset JSON data
    - Communication flow: **GraphQL Gateway → MongoDB Service → MongoDB**
@@ -146,14 +159,16 @@ The repository contains sample Alexa skills in the `samples/` directory and rece
 
 ## Session Log
 
-### Session 2 (2025-11-10)
+### Session 2 (2025-11-10 to 2025-11-12)
 - Added File System microservice with S3, Egnyte, and LucidLink support
 - Replaced generic storage icons with official company logos for presentation
 - Corrected External Clients flow (Web UI → Web Service BFF pattern)
 - Renamed "Users & Partners" to "Integration & Partners"
 - Added External Auth block (OAuth2.0, SAML, Okta → KeyCloak)
 - Added MongoDB Service for CRUD operations on asset JSON data
-- Architecture version progressed from 0.2 → 0.5
+- Removed stray edge labels ("SSO", "cache") for cleaner diagram
+- Added External Cloud Service Connect block with direct GraphQL Gateway access
+- Architecture version progressed from 0.2 → 0.6
 
 ### Session 1 (2025-11-04)
 - Initial memory file creation

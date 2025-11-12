@@ -44,6 +44,10 @@ with Diagram(
         saml = Auth0("SAML")
         okta = Auth0("Okta")
 
+    # External Cloud Service
+    with Cluster("External Cloud Service", graph_attr={"bgcolor": "#E1F5FE"}):
+        connect = Custom("Connect", "./logos/connect-logo.png")
+
     # Kubernetes Cluster
     with Cluster("Kubernetes Cluster", graph_attr={"bgcolor": "#E8F5E9"}):
 
@@ -116,6 +120,9 @@ with Diagram(
     saml >> Edge(color="#FF6F00", style="bold", label="auth") >> keycloak
     okta >> Edge(color="#FF6F00", style="bold", label="auth") >> keycloak
 
+    # External Cloud Service to Gateway
+    connect >> Edge(color="#1976D2", style="bold", label="API") >> graphql_gateway
+
     # Gateway to Auth (Direct - Synchronous)
     graphql_gateway >> Edge(color="#2E7D32", style="bold", label="auth") >> auth_service
 
@@ -186,3 +193,4 @@ print("  - Updated: Web UI → Web Service (BFF pattern)")
 print("  - Updated: Users renamed to Integration & Partners")
 print("  - Added: External Auth block (OAuth2.0, SAML, Okta → KeyCloak)")
 print("  - Added: MongoDB Service for asset CRUD (GraphQL → MongoDB Service → MongoDB)")
+print("  - Added: External Cloud Service Connect → GraphQL Gateway")

@@ -25,6 +25,11 @@
 - **Okta** - Identity and access management platform
 - All external auth providers integrate directly with KeyCloak
 
+### External Cloud Service
+- **Connect** - External cloud service integration
+- Connects directly to GraphQL Gateway for API access
+- Enables external service-to-service communication
+
 ---
 
 ## Microservices
@@ -147,6 +152,7 @@
 
 ### Synchronous Communication
 - **Integration & Partners → GraphQL Gateway → Auth-Service** (direct HTTP/GraphQL)
+- **Connect (External Cloud Service) → GraphQL Gateway** (service-to-service API calls)
 - **Web UI → Web Service → GraphQL Gateway** (BFF pattern - Web Service makes API calls on behalf of Web UI)
 - **External Auth (OAuth2.0/SAML/Okta) → KeyCloak** (direct authentication)
 - **GraphQL Gateway → MongoDB Service → MongoDB** (direct CRUD operations for asset metadata)
@@ -167,6 +173,8 @@ Integration & Partners → GraphQL Gateway → Auth-Service
                          Conductor ←→ RabbitMQ
                               ↓
                     [All microservices consume from queues]
+
+Connect (Cloud Service) → GraphQL Gateway → Auth-Service
 
 Web UI → Web Service → GraphQL Gateway → Auth-Service
 
@@ -212,5 +220,5 @@ External Auth (OAuth2.0, SAML, Okta) → KeyCloak → Auth-Service
 
 ---
 
-**Last Updated:** 2025-11-10
-**Version:** 0.5 - Added MongoDB Service for CRUD operations on asset JSON data (GraphQL Gateway → MongoDB Service → MongoDB)
+**Last Updated:** 2025-11-12
+**Version:** 0.6 - Added External Cloud Service Connect with direct connection to GraphQL Gateway
